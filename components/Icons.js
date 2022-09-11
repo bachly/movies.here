@@ -21,3 +21,12 @@ export function ChevronRight() {
         <path fillRule="evenodd" clipRule="evenodd" d="M14.5858 12L7.29291 4.70712L8.70712 3.29291L17.4142 12L8.70712 20.7071L7.29291 19.2929L14.5858 12Z" fill="current" />
     </svg>
 }
+
+export function CrossIcon() {
+    return <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <g id="16 / x">
+            <path id="icon" fillRule="evenodd" clipRule="evenodd" d="M11.9999 14.1213L5.56059 20.5607L3.43927 18.4394L9.87861 12L3.43927 5.56068L5.56059 3.43936L11.9999 9.8787L18.4393 3.43936L20.5606 5.56068L14.1213 12L20.5606 18.4394L18.4393 20.5607L11.9999 14.1213Z" fill="current" />
+        </g>
+    </svg>
+
+}

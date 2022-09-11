@@ -16,7 +16,7 @@ export default function Layout({ children }) {
             </div>
         </aside>
 
-        <main className="flex-1">
+        <main className="flex-1 h-screen overflow-y-scroll">
             {children}
         </main>
     </div>

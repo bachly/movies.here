@@ -1,18 +1,28 @@
 import useAxios from 'axios-hooks';
-import React, { useEffect } from 'react'
-import { ChevronLeft, ChevronRight, SearchIcon } from '../components/Icons';
+import React, { useCallback, useEffect } from 'react'
+import { ChevronLeft, ChevronRight, CrossIcon, SearchIcon } from '../components/Icons';
 import Layout from '../components/Layout';
 import { AppContext } from '../lib/reactContexts';
+import debounce from 'lodash.debounce';
+import { MovieThumbnail, MovieThumbnailSkeleton } from '../components/MovieThumbnail';
 
 function homepageReducer(state, action) {
     switch (action.type) {
         case "changeSearchTerm":
             return {
+                ...state,
                 searchTerm: action.payload
             }
         case "successSearching":
             return {
-                movies: action.successSearching && action.successSearching.results
+                ...state,
+                foundMovies: action.payload.results || []
+            }
+        case "clearSearch":
+            return {
+                ...state,
+                searchTerm: "",
+                foundMovies: null
             }
         default:
             throw new Error('Unknown reducer action');
@@ -20,8 +30,9 @@ function homepageReducer(state, action) {
 }
 
 export default function Homepage() {
+    const searchInputRef = React.createRef();
     const [state, dispatch] = React.useReducer(homepageReducer, {
-        movies: null,
+        foundMovies: null,
         searchTerm: ""
     });
 
@@ -51,6 +62,24 @@ export default function Homepage() {
             type: "changeSearchTerm",
             payload: event.target.value
         })
+    }
+
+    const debouncedHandleSearchTerm = debounce(handleChangeSearchTerm, 300);
+
+    function handleForceSearch(event) {
+        event && event.preventDefault();
+        if (state.searchTerm && state.searchTerm.length > 0) {
+            searchMovies();
+        }
+    }
+
+    function handleClearSearch(event) {
+        event && event.preventDefault();
+        dispatch({
+            type: "clearSearch",
+            payload: ""
+        })
+        searchInputRef.current.value = "";
     }
 
     useEffect(function onSearchTermChanged() {
@@ -83,30 +112,50 @@ export default function Homepage() {
                                 <div className="text-white text-opacity-50 fill-current mr-4"><ChevronLeft /></div>
                                 <div className="text-white text-opacity-50 fill-current mr-6"><ChevronRight /></div>
                                 <div className="relative">
-                                    <div className="absolute left-0 top-0 h-full flex items-center pl-5 text-white fill-current"><SearchIcon /></div>
-                                    <input
-                                        onChange={handleChangeSearchTerm}
-                                        className="w-96 bg-white bg-opacity-10 rounded-full w-96 pr-4 pl-14 py-4 placeholder-neutral-500 text-white text-sm" placeholder="What do you want to watch?" />
+                                    <form>
+                                        <button onClick={handleForceSearch} className="absolute left-0 top-0 h-full flex items-center pl-5 text-white fill-current">
+                                            <SearchIcon />
+                                        </button>
+                                        <input type="text"
+                                            defaultValue={state.searchTerm}
+                                            ref={searchInputRef}
+                                            onChange={debouncedHandleSearchTerm}
+                                            className="w-96 bg-white bg-opacity-10 rounded-full w-96 pr-4 pl-14 py-4 placeholder-neutral-500 text-white text-sm" placeholder="What do you want to watch?" />
+                                        {state.searchTerm &&
+                                            <button onClick={handleClearSearch} className="absolute right-0 top-0 h-full flex items-center pr-5 text-white fill-current">
+                                                <CrossIcon />
+                                            </button>}
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="text-white px-8 py-4">
+                    <div className="text-white px-8 py-2">
                         {(() => {
-                            if (state.movies !== null) {
-                                if (state.movies.length === 0) {
-                                    return <>No movies found</>
+                            if (isSearching) {
+                                return <div className="grid grid-cols-5 gap-4 place-items-start">
+                                    {new Array(10).fill('1').map((item, index) => <MovieThumbnailSkeleton
+                                        key={`movie-thumbnail-skeleton-${index}`} />)}
+                                </div>
+                            } else {
+                                if (errorSearching) {
+                                    return <>Error searching. Try again.</>
                                 } else {
-                                    return <div className="grid grid-cols-4 gap-4">
-                                        {state.movies.map(movie =>
-                                            <div>
-                                                <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} />
+                                    if (state.foundMovies) {
+                                        if (state.foundMovies.length === 0) {
+                                            return <>No movies found</>
+                                        } else {
+                                            return <div className="grid grid-cols-5 gap-4 place-items-start">
+                                                {state.foundMovies.map(movie => <MovieThumbnail key={movie.id} movie={movie} />)}
                                             </div>
-                                        )}
-                                    </div>
+                                        }
+                                    } else {
+                                        return <></>
+                                    }
                                 }
                             }
+
                         })()}
                     </div>
                 </Layout>
