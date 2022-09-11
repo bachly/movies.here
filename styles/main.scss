@@ -1,0 +1,33 @@
+.absolute-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.css-triangle-button {
+    &__corner {
+        border-top: 32px solid transparent;
+        border-right-width: 32px;
+        border-right-style: solid;
+    }
+    &__icon {
+        position: absolute;
+        right: 4px;
+        bottom: 4px;
+        fill: currentColor;
+    }
+}
+
+.splide__pagination {
+    margin-bottom: -3rem;
+}
+
+.splide__pagination__page.is-active {
+    background: black;
+}
+
+.vertically-centered {
+    top: 50%;
+    transform: translateY(-50%);
+}
