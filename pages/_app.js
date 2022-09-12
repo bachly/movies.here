@@ -1,5 +1,7 @@
+import '@splidejs/react-splide/css/core';
+import '@splidejs/splide/css';
 import "../styles/globals.css";
-import '../styles/main.scss'
+import '../styles/main.scss';
 import { AppContext } from '../lib/reactContexts';
 import { useEffect, useReducer } from 'react';
 import TrendinMediaSection from "../components/TrendingMediaSection";

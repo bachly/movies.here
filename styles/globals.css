@@ -3,38 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/*** SplideJS ***/
-
-@import '@splidejs/splide/css';
-@import '@splidejs/react-splide/css/core';
-.splide__pagination {
-    bottom: -3rem;
-}
-.splide__pagination__page {
-    margin: 4px;
-    background: theme("colors.gray.500");
-}
-
-.splide__pagination__page.is-active {
-    background: theme("colors.white")
-}
-
-button.splide__arrow {
-    background-color: theme("colors.white");
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-button.splide__arrow svg {
-    width: 1rem;
-    height: 1rem;
-}
-
-.splide__arrow--prev {
-    left: -1rem;
-}
-
-.splide__arrow--next {
-    right: -1rem;
-}
