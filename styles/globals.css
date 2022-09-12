@@ -20,20 +20,21 @@
     background: theme("colors.white")
 }
 
-.splide__arrows {
-    position: absolute;
-    top: -3rem;
-    right: 0;
-}
-
 button.splide__arrow {
     background-color: theme("colors.white");
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+button.splide__arrow svg {
+    width: 1rem;
+    height: 1rem;
 }
 
 .splide__arrow--prev {
-    left: -4.5rem;
+    left: -1rem;
 }
 
 .splide__arrow--next {
-    right: 0;
+    right: -1rem;
 }

@@ -29,7 +29,6 @@ export default function TrendinMediaSection({ mediaType = 'movie', timeWindow = 
 
     useEffect(function onSuccessGettingTrendingMedia() {
         if (successGettingTrendingMedia) {
-            console.log('onSuccessGettingTrendingMedia', successGettingTrendingMedia.data.results)
             dispatchAppAction({
                 type: "setTrendingMedia",
                 payload: {
@@ -46,13 +45,22 @@ export default function TrendinMediaSection({ mediaType = 'movie', timeWindow = 
                 if (appState.trendingMedia[mediaGroup].length === 0) {
                     return <></>
                 } else {
-                    return <section className="mb-8 pb-8">
-                        <div className="text-3xl text-white font-bold">{title}</div>
-                        <div className="mt-6">
+                    return <section className="mb-20">
+                        <div className="text-base lg:text-2xl text-neutral-300 font-semibold">{title}</div>
+                        <div className="mt-4">
                             <Splide options={{
                                 gap: '1rem',
                                 perPage: 5,
-                                pagination: false
+                                arrows: false,
+                                breakpoints: {
+                                    1280: {
+                                        perPage: 2,
+                                    },
+                                    640: {
+                                        gap: '0.5rem',
+                                        perPage: 2,
+                                    },
+                                }
                             }}>
                                 {_.first(appState.trendingMedia[mediaGroup], 10).map(media =>
                                     <SplideSlide key={media.id}>
@@ -72,9 +80,9 @@ export default function TrendinMediaSection({ mediaType = 'movie', timeWindow = 
                     </section>
                 }
             } else {
-                return <section className="mb-8">
-                    <div className="text-3xl w-64 bg-neutral-800">&nbsp;</div>
-                    <div className="mt-6 grid grid-cols-5 gap-4 place-items-start">
+                return <section className="mb-20">
+                    <div className="text-base lg:text-2xl w-64 bg-neutral-800 bg-opacity-40">&nbsp;</div>
+                    <div className="mt-4 grid grid-cols-2 xl:grid-cols-5 gap-2 lg:gap-4 place-items-start">
                         {new Array(5).fill('1').map((item, index) => <MovieThumbnailSkeleton
                             key={`movie-thumbnail-skeleton-${index}`} />)}
                     </div>

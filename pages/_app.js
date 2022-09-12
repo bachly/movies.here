@@ -85,7 +85,6 @@ function App({ Component, pageProps }) {
 
   useEffect(function watchlistChanged() {
     if (appState.watchlist) {
-      console.log('watchlistChanged', appState.watchlist);
       if (typeof window !== "undefined") {
         localStorage.setItem('watchlist', JSON.stringify(appState.watchlist));
       }

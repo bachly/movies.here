@@ -39,7 +39,7 @@ export default function WatchlistPage() {
             <HeaderWithoutSearch />
 
             <Container>
-                <h1 className="my-12 text-white text-6xl font-bold">Watchlist</h1>
+                <h1 className="mb-8 xl:mt-8 text-white text-3xl xl:text-5xl font-bold">Watchlist</h1>
             </Container>
         </div>
 
@@ -47,7 +47,7 @@ export default function WatchlistPage() {
             {(() => {
                 if (appState.watchlist && appState.watchlist[state.watchlistId]) {
                     const movies = appState.watchlist[state.watchlistId].movies;
-                    return <div className="grid grid-cols-5 gap-4 place-items-start">
+                    return <div className="grid grid-cols-2 xl:grid-cols-5 gap-4 place-items-start">
                         {Object.keys(movies).map(movieId => <MovieThumbnail key={movieId} movie={movies[movieId]} />)}
                     </div>
                 } else {

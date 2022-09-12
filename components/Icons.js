@@ -53,3 +53,10 @@ export function PlusIcon() {
         <path fillRule="evenodd" clipRule="evenodd" d="M13 11H22V13H13V22H11V13H2V11H11V2H13V11Z" fill="current" />
     </svg>
 }
+
+export function MenuIcon() {
+    return <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd" clipRule="evenodd" d="M22 7V5H2V7H22ZM22 11V13H2V11H22ZM22 17V19H2V17H22Z" fill="current" />
+    </svg>
+
+}
