@@ -2,6 +2,7 @@ import useAxios from "axios-hooks";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useReducer, useState } from "react";
 import HeaderWithoutSearch from "../../components/HeaderWithoutSearch";
+import { CheckMarkIcon, PlusIcon } from "../../components/Icons";
 import Layout from "../../components/Layout";
 import { AppContext } from "../../lib/reactContexts";
 
@@ -98,9 +99,34 @@ export default function MovieDetailsPage() {
         }
     }
 
+    function handleRemoveFromWatchlist({ id }) {
+        return (event) => {
+            event && event.preventDefault();
+            dispatchAppAction({
+                type: "removeFromWatchlist",
+                payload: {
+                    watchlistId: 0,
+                    movie: {
+                        id
+                    }
+                }
+            })
+        }
+    }
+
+    function isInWatchlist({ watchlistId, movieId }) {
+        const watchlist = appState.watchlist[watchlistId];
+        const movies = watchlist && watchlist.movies;
+        
+        return Object.keys(movies).length > 0 && Object.keys(movies).indexOf(movieId.toString()) >= 0;
+    }
+
     return <Layout>
         <div className="relative">
             <HeaderWithoutSearch />
+
+            <div className="pt-8" />
+
             {(() => {
                 if (isGettingMovieDetails) {
                     return <div className="flex items-start">
@@ -125,7 +151,7 @@ export default function MovieDetailsPage() {
                         if (state.movieDetails) {
                             return <div className="flex items-start">
                                 <div className="w-1/2 px-12">
-                                    <div className="pb-3/2 bg-image bg-center bg-cover bg-neutral-800"
+                                    <div className="pb-3/2 bg-image bg-center bg-cover bg-neutral-800 shadow-xl"
                                         style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${state.movieDetails.poster_path})` }} />
                                 </div>
                                 <div className="flex-1">
@@ -154,16 +180,24 @@ export default function MovieDetailsPage() {
 
                                         <div className="mt-8 pb-8 border-t border-neutral-700"></div>
 
-                                        <button onClick={handleAddToWatchlist(state.movieDetails)} className="py-1 px-3 rounded-md transition duration-200 bg-neutral-800 text-white opacity-60 hover:opacity-100">
-                                            <div className="flex items-center">
-                                                <span className="fill-current mr-2">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fillRule="evenodd" clipRule="evenodd" d="M13 11H22V13H13V22H11V13H2V11H11V2H13V11Z" fill="current" />
-                                                    </svg>
-                                                </span>
-                                                Add to watchlist
-                                            </div>
-                                        </button>
+                                        {isInWatchlist({ watchlistId: 0, movieId: state.movieDetails.id }) ?
+                                            <button onClick={handleRemoveFromWatchlist(state.movieDetails)} className="py-1 px-4 rounded-md transition duration-200 bg-neutral-800 text-white opacity-60 hover:opacity-100">
+                                                <div className="flex items-center">
+                                                    <span className="fill-current text-green-500 mr-2">
+                                                        <CheckMarkIcon />
+                                                    </span>
+                                                    Added to watchlist
+                                                </div>
+                                            </button>
+                                            :
+                                            <button onClick={handleAddToWatchlist(state.movieDetails)} className="py-1 px-4 rounded-md transition duration-200 bg-neutral-800 text-white opacity-60 hover:opacity-100">
+                                                <div className="flex items-center">
+                                                    <span className="fill-current mr-2">
+                                                        <PlusIcon />
+                                                    </span>
+                                                    Add to watchlist
+                                                </div>
+                                            </button>}
                                     </div>
                                 </div>
                             </div>

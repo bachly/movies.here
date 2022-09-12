@@ -40,7 +40,6 @@ function appReducer(state, action) {
             [action.payload.movie.id]: action.payload.movie
           }
         }
-        console.log('updatedWatchlist 1', updatedWatchlist)
       } else {
         updatedWatchlist = {
           ...watchlist,
@@ -49,13 +48,25 @@ function appReducer(state, action) {
             [action.payload.movie.id]: action.payload.movie
           }
         }
-        console.log('updatedWatchlist 2', updatedWatchlist)
       }
 
       return {
         ...state,
         watchlist: {
+          ...state.watchlist,
           [action.payload.watchlistId]: updatedWatchlist
+        }
+      }
+
+    case "removeFromWatchlist":
+      const existingWatchlist = state.watchlist[action.payload.watchlistId];
+      delete existingWatchlist.movies[action.payload.movie.id];
+
+      return {
+        ...state,
+        watchlist: {
+          ...state.watchlist,
+          [action.payload.watchlistId]: existingWatchlist
         }
       }
 
@@ -69,12 +80,15 @@ function App({ Component, pageProps }) {
     searchTerm: "",
     foundMovies: null,
     trendingMovies: null,
-    watchlist: {}
+    watchlist: typeof window !== "undefined" && JSON.parse(localStorage.getItem('watchlist')) || {}
   })
 
   useEffect(function watchlistChanged() {
     if (appState.watchlist) {
-      console.log('watchlistChanged', appState.watchlist)
+      console.log('watchlistChanged', appState.watchlist);
+      if (typeof window !== "undefined") {
+        localStorage.setItem('watchlist', JSON.stringify(appState.watchlist));
+      }
     }
   }, [appState.watchlist])
 
