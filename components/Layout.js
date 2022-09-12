@@ -1,24 +1,26 @@
 import Link from 'next/link';
-import { PlusFolderIcon, SearchIcon } from './Icons';
+import { QueueMediaIcon, HomeIcon } from './Icons';
 
 export default function Layout({ children }) {
-    return <div className="flex items-start">
-        <aside className="w-72 bg-stone-900 bg-opacity-40 h-screen">
-            <div className="py-6 px-6">
-                <div className="text-white text-xl font-semibold">MoviesHere</div>
-                <div className="pt-4"></div>
-                <MenuItem href="/" svgIcon={<SearchIcon />}>
-                    Home
-                </MenuItem>
-                <MenuItem href="/" svgIcon={<PlusFolderIcon />}>
-                    Watchlist
-                </MenuItem>
-            </div>
-        </aside>
+    return <div className="bg-black min-h-screen min-w-screen">
+        <div className="flex items-start">
+            <aside className="w-72 bg-stone-900 bg-opacity-70 h-screen">
+                <div className="py-8 px-6">
+                    <div className="text-white text-xl font-semibold">MoviesHere</div>
+                    <div className="pt-4"></div>
+                    <MenuItem href="/" svgIcon={<HomeIcon />}>
+                        Home
+                    </MenuItem>
+                    <MenuItem href="/" svgIcon={<QueueMediaIcon />}>
+                        Watchlist
+                    </MenuItem>
+                </div>
+            </aside>
 
-        <main className="flex-1 h-screen overflow-y-scroll">
-            {children}
-        </main>
+            <main className="flex-1 h-screen overflow-y-scroll">
+                {children}
+            </main>
+        </div>
     </div>
 }
 

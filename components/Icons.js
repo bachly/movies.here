@@ -10,8 +10,14 @@ export function PlusFolderIcon() {
     </svg>
 }
 
-export function ChevronLeft() {
+export function QueueMediaIcon() {
     return <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd" clipRule="evenodd" d="M23 19C23 20.1046 22.1046 21 21 21H9C7.89543 21 7 20.1046 7 19V5C7 3.89543 7.89543 3 9 3H21C22.1046 3 23 3.89543 23 5V19ZM6 20C4.89543 20 4 19.1046 4 18V6C4 4.89543 4.89543 4 6 4V20ZM1 17C1 18.1046 1.89543 19 3 19V5C1.89543 5 1 5.89543 1 7V17ZM9 19H21V5H9V19ZM17 12L13 9V15L17 12Z" fill="current" />
+    </svg>
+}
+
+export function ChevronLeft() {
+    return <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" clipRule="evenodd" d="M9.41424 12L16.7071 19.2929L15.2929 20.7071L6.58582 12L15.2929 3.29291L16.7071 4.70712L9.41424 12Z" fill="current" />
     </svg>
 }
@@ -27,6 +33,12 @@ export function CrossIcon() {
         <g id="16 / x">
             <path id="icon" fillRule="evenodd" clipRule="evenodd" d="M11.9999 14.1213L5.56059 20.5607L3.43927 18.4394L9.87861 12L3.43927 5.56068L5.56059 3.43936L11.9999 9.8787L18.4393 3.43936L20.5606 5.56068L14.1213 12L20.5606 18.4394L18.4393 20.5607L11.9999 14.1213Z" fill="current" />
         </g>
+    </svg>
+}
+
+export function HomeIcon() {
+    return <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd" clipRule="evenodd" d="M5.88867 10L11.89 3.99867L17.8913 10H17.89V20H5.89001V10H5.88867ZM3.89001 11.9987L2.4132 13.4755L1 12.0623L10.477 2.58529C11.2574 1.8049 12.5226 1.8049 13.303 2.58529L22.78 12.0623L21.3668 13.4755L19.89 11.9987V20C19.89 21.1046 18.9946 22 17.89 22H5.89001C4.78545 22 3.89001 21.1046 3.89001 20V11.9987Z" fill="current" />
     </svg>
 
 }
