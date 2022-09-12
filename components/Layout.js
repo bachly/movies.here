@@ -18,9 +18,9 @@ export default function Layout({ children }) {
         return router.pathname.indexOf(menuName) >= 0;
     }
 
-    return <div className="bg-neutral-900 min-h-screen min-w-screen">
+    return <div className="bg-neutral-900 min-h-screen min-w-screen font-body">
         <div className="flex items-start">
-            <aside className="w-72 bg-black h-screen">
+            <aside className="w-64 bg-black h-screen">
                 <div className="py-8 pl-6 pr-8">
                     <div className="text-white text-xl font-semibold">MoviesHere</div>
                     <div className="pt-4"></div>

@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css?family=Mulish:semibold,bold,black&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*** SplideJS ***/
+
+@import '@splidejs/splide/css';
+@import '@splidejs/react-splide/css/core';
+.splide__pagination {
+    bottom: -3rem;
+}
+.splide__pagination__page {
+    margin: 4px;
+    background: theme("colors.gray.500");
+}
+
+.splide__pagination__page.is-active {
+    background: theme("colors.white")
+}
+
+.splide__arrows {
+    position: absolute;
+    top: -3rem;
+    right: 0;
+}
+
+button.splide__arrow {
+    background-color: theme("colors.white");
+}
+
+.splide__arrow--prev {
+    left: -4.5rem;
+}
+
+.splide__arrow--next {
+    right: 0;
+}

@@ -18,6 +18,6 @@ export function MovieThumbnailSkeleton() {
     return <div className="w-full pb-8 rounded-sm">
         <div className="pb-3/2 bg-image bg-cover bg-neutral-800" />
         <div className="mt-4 bg-neutral-800 w-3/4">&nbsp;</div>
-        <div className="mt-2 bg-neutral-800 w-1/2 h-4"></div>
+        <div className="mt-1 bg-neutral-800 w-1/2">&nbsp;</div>
     </div>
 }

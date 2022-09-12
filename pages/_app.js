@@ -1,8 +1,8 @@
-import 'tailwindcss/tailwind.css'
-import '@splidejs/react-splide/css';
+import "../styles/globals.css";
 import '../styles/main.scss'
 import { AppContext } from '../lib/reactContexts';
 import { useEffect, useReducer } from 'react';
+import TrendinMediaSection from "../components/TrendingMediaSection";
 
 function appReducer(state, action) {
   switch (action.type) {
@@ -21,6 +21,14 @@ function appReducer(state, action) {
       return {
         ...state,
         foundMovies: action.payload
+      }
+    case "setTrendingMedia":
+      return {
+        ...state,
+        trendingMedia: {
+          ...state.trendingMedia,
+          [action.payload.mediaGroup]: action.payload.items
+        }
       }
     case "addToWatchlist":
       const watchlist = state.watchlist[action.payload.watchlistId];
@@ -60,6 +68,7 @@ function App({ Component, pageProps }) {
   const [appState, dispatchAppAction] = useReducer(appReducer, {
     searchTerm: "",
     foundMovies: null,
+    trendingMovies: null,
     watchlist: {}
   })
 

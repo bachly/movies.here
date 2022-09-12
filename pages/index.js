@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce';
 import { MovieThumbnail, MovieThumbnailSkeleton } from '../components/MovieThumbnail';
 import { DEBOUNCED_SEARCHING_MILLISECONDS } from '../lib/constants';
 import Container from '../components/Container';
+import TrendinMediaSection from '../components/TrendingMediaSection';
 
 export default function Homepage() {
     const searchInputRef = React.createRef();
@@ -119,11 +120,13 @@ export default function Homepage() {
                                     </div>
                                 }
                             } else {
-                                return <></>
+                                return <div className="mt-6">
+                                    <TrendinMediaSection mediaType="movie" title="Trending Movies This Week" />
+                                    <TrendinMediaSection mediaType="movie" timeWindow="day" title="Popular Movies Today" />
+                                </div>
                             }
                         }
                     }
-
                 })()}
             </Container>
         </Layout>

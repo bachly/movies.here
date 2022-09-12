@@ -27,6 +27,9 @@ module.exports = {
       '100': '1',
     },
     extend: {
+      fontFamily: {
+        body: ['Mulish']
+      },
       maxWidth: {
         '8xl': '90rem',
         '9xl': '96rem',
