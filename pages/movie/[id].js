@@ -118,7 +118,7 @@ export default function MovieDetailsPage() {
         const watchlist = appState.watchlist[watchlistId];
         const movies = watchlist && watchlist.movies;
 
-        return Object.keys(movies).length > 0 && Object.keys(movies).indexOf(movieId.toString()) >= 0;
+        return movies && Object.keys(movies).length > 0 && Object.keys(movies).indexOf(movieId.toString()) >= 0;
     }
 
     return <Layout>

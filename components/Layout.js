@@ -22,8 +22,8 @@ export default function Layout({ children }) {
         <aside className={clsx("hidden xl:block xl:fixed z-50 left-0 top-0 w-64 bg-black h-screen")}>
             <div className="py-8 pl-6 pr-6 relative z-50">
                 <div className="text-xl">
-                    <span className="text-neutral-300 font-black tracking-widest">MOVIES</span>
-                    <span className="text-red-700 font-black tracking-widest">HERE</span>
+                    <span className="text-neutral-300 font-black tracking-widest">NET</span>
+                    <span className="text-red-700 font-black tracking-widest">FROG</span>
                 </div>
                 <div className="pt-4"></div>
                 <MenuItem href="/" svgIcon={<HomeIcon />} isActive={router.pathname === '/'}>
