@@ -1,34 +1,16 @@
 import useAxios from 'axios-hooks';
-import React, { useCallback, useContext, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, CrossIcon, SearchIcon } from '../components/Icons';
+import React, { useContext, useEffect } from 'react'
+import { CrossIcon, SearchIcon } from '../components/Icons';
 import Layout from '../components/Layout';
 import { AppContext } from '../lib/reactContexts';
 import debounce from 'lodash.debounce';
 import { MovieThumbnail, MovieThumbnailSkeleton } from '../components/MovieThumbnail';
-
-function homepageReducer(state, action) {
-    switch (action.type) {
-        case "successSearching":
-            return {
-                ...state,
-                foundMovies: action.payload.results || []
-            }
-        case "clearSearch":
-            return {
-                ...state,
-                foundMovies: null
-            }
-        default:
-            throw new Error('Unknown reducer action');
-    }
-}
+import { DEBOUNCED_SEARCHING_MILLISECONDS } from '../lib/constants';
+import Container from '../components/Container';
 
 export default function Homepage() {
     const searchInputRef = React.createRef();
     const { appState, dispatchAppAction } = useContext(AppContext);
-    const [state, dispatch] = React.useReducer(homepageReducer, {
-        foundMovies: null,
-    });
 
     const [{
         data: successSearching,
@@ -44,7 +26,8 @@ export default function Homepage() {
                 accept: 'application/json',
             },
             data: JSON.stringify({
-                searchTerm: appState.searchTerm
+                searchTerm: appState.searchTerm,
+                page: 1
             })
         },
         { manual: true }
@@ -58,7 +41,7 @@ export default function Homepage() {
         })
     }
 
-    const debouncedHandleSearchTerm = debounce(handleChangeSearchTerm, 300);
+    const debouncedHandleSearchTerm = debounce(handleChangeSearchTerm, DEBOUNCED_SEARCHING_MILLISECONDS);
 
     function handleForceSearch(event) {
         event && event.preventDefault();
@@ -86,10 +69,9 @@ export default function Homepage() {
 
     useEffect(function onSearchResultsChanged() {
         if (successSearching) {
-            console.log("successSearching", successSearching.data);
-            dispatch({
-                type: "successSearching",
-                payload: successSearching.data
+            dispatchAppAction({
+                type: "setFoundMovies",
+                payload: successSearching.data && successSearching.data.results || []
             })
         }
     }, [
@@ -98,30 +80,26 @@ export default function Homepage() {
 
     return <>
         <Layout>
-            <div className="w-full py-6 px-12">
-                <div className="">
-                    <div className="flex items-center">
-                        <div className="relative">
-                            <form>
-                                <button onClick={handleForceSearch} className="absolute left-0 top-0 h-full flex items-center pl-5 text-white fill-current">
-                                    <SearchIcon />
-                                </button>
-                                <input type="text"
-                                    defaultValue={appState.searchTerm}
-                                    ref={searchInputRef}
-                                    onChange={debouncedHandleSearchTerm}
-                                    className="w-96 bg-white bg-opacity-10 rounded-full w-80 pr-4 pl-14 py-3 placeholder-neutral-500 text-white text-sm" placeholder="What do you want to watch?" />
-                                {appState.searchTerm &&
-                                    <button onClick={handleClearSearch} className="absolute right-0 top-0 h-full flex items-center pr-5 text-white fill-current">
-                                        <CrossIcon />
-                                    </button>}
-                            </form>
-                        </div>
-                    </div>
+            <Container>
+                <div className="my-4 flex items-center">
+                    <form className="relative">
+                        <button onClick={handleForceSearch} className="absolute left-0 top-0 h-full flex items-center pl-5 text-white fill-current">
+                            <SearchIcon />
+                        </button>
+                        <input type="text"
+                            defaultValue={appState.searchTerm}
+                            ref={searchInputRef}
+                            onChange={debouncedHandleSearchTerm}
+                            className="w-96 bg-white bg-opacity-10 rounded-full w-80 pr-4 pl-14 py-3 placeholder-neutral-500 text-white text-sm" placeholder="What do you want to watch?" />
+                        {appState.searchTerm &&
+                            <button onClick={handleClearSearch} className="absolute right-0 top-0 h-full flex items-center pr-5 text-white fill-current">
+                                <CrossIcon />
+                            </button>}
+                    </form>
                 </div>
-            </div>
+            </Container>
 
-            <div className="text-white py-2 px-12">
+            <Container>
                 {(() => {
                     if (isSearching) {
                         return <div className="grid grid-cols-5 gap-4 place-items-start">
@@ -130,14 +108,14 @@ export default function Homepage() {
                         </div>
                     } else {
                         if (errorSearching) {
-                            return <>Error searching. Try again.</>
+                            return <div className="text-neutral-400">Error searching. Try again.</div>
                         } else {
-                            if (state.foundMovies) {
-                                if (state.foundMovies.length === 0) {
+                            if (appState.foundMovies) {
+                                if (appState.foundMovies.length === 0) {
                                     return <>No movies found</>
                                 } else {
                                     return <div className="grid grid-cols-5 gap-4 place-items-start">
-                                        {state.foundMovies.map(movie => <MovieThumbnail key={movie.id} movie={movie} />)}
+                                        {appState.foundMovies.map(movie => <MovieThumbnail key={movie.id} movie={movie} />)}
                                     </div>
                                 }
                             } else {
@@ -147,7 +125,7 @@ export default function Homepage() {
                     }
 
                 })()}
-            </div>
+            </Container>
         </Layout>
     </>
 }

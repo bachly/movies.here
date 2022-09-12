@@ -1,8 +1,9 @@
 import useAxios from "axios-hooks";
 import { useRouter } from "next/router";
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import HeaderWithoutSearch from "../../components/HeaderWithoutSearch";
 import Layout from "../../components/Layout";
+import { AppContext } from "../../lib/reactContexts";
 
 function movieDetailsPageReducer(state, action) {
     switch (action.type) {
@@ -22,6 +23,7 @@ function movieDetailsPageReducer(state, action) {
 }
 
 export default function MovieDetailsPage() {
+    const { appState, dispatchAppAction } = useContext(AppContext);
     const [state, dispatch] = useReducer(movieDetailsPageReducer, {
         movieId: null,
         movieDetails: null
@@ -77,14 +79,43 @@ export default function MovieDetailsPage() {
         successGettingMovieDetails
     ])
 
+    function handleAddToWatchlist({ id, title, release_date, poster_path, vote_average }) {
+        return (event) => {
+            event && event.preventDefault();
+            dispatchAppAction({
+                type: "addToWatchlist",
+                payload: {
+                    watchlistId: 0,
+                    movie: {
+                        id,
+                        title,
+                        release_date,
+                        vote_average,
+                        poster_path
+                    }
+                }
+            })
+        }
+    }
+
     return <Layout>
         <div className="relative">
             <HeaderWithoutSearch />
             {(() => {
                 if (isGettingMovieDetails) {
-                    return <div className="">
+                    return <div className="flex items-start">
                         <div className="w-1/2 px-12">
-                            <div className="pb-3/2 bg-image bg-center bg-cover bg-neutral-900 bg-opacity-80" />
+                            <div className="pb-3/2 bg-image bg-center bg-cover bg-neutral-800" />
+                        </div>
+                        <div className="flex-1">
+                            <div className="max-w-md">
+                                <h1 className="movie__title text-3xl bg-neutral-800">&nbsp;</h1>
+                                <div className="movie__tagline bg-neutral-800">&nbsp;</div>
+                                <div className="mt-6 h-12 bg-neutral-800"></div>
+                                <div className="movie__overview mt-6 h-24 bg-neutral-800"></div>
+                                <div className="movie__genres mt-4 h-6 bg-neutral-800"></div>
+                                <div className="movie__overview mt-6 h-56 bg-neutral-800"></div>
+                            </div>
                         </div>
                     </div>
                 } else {
@@ -94,7 +125,7 @@ export default function MovieDetailsPage() {
                         if (state.movieDetails) {
                             return <div className="flex items-start">
                                 <div className="w-1/2 px-12">
-                                    <div className="pb-3/2 bg-image bg-center bg-cover bg-neutral-900 bg-opacity-80"
+                                    <div className="pb-3/2 bg-image bg-center bg-cover bg-neutral-800"
                                         style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${state.movieDetails.poster_path})` }} />
                                 </div>
                                 <div className="flex-1">
@@ -114,14 +145,25 @@ export default function MovieDetailsPage() {
                                         <div className="mt-4">
                                             {state.movieDetails.genres.length > 0 && <div className="movie__genres flex items-center flex-wrap">
                                                 {state.movieDetails.genres.map(genre => {
-                                                    return <div className="text-neutral-300 text-xs uppercase mt-2 py-1 px-4 bg-neutral-800 rounded-sm mr-2" key={genre.id}>
+                                                    return <div className="text-neutral-400 text-xs uppercase mt-2 py-1 px-4 bg-neutral-800 rounded-sm mr-2" key={genre.id}>
                                                         {genre.name}
                                                     </div>
                                                 })}
                                             </div>}
                                         </div>
 
-                                        <div className="mt-8 border-t border-neutral-700"></div>
+                                        <div className="mt-8 pb-8 border-t border-neutral-700"></div>
+
+                                        <button onClick={handleAddToWatchlist(state.movieDetails)} className="py-1 px-3 rounded-md transition duration-200 bg-neutral-800 text-white opacity-60 hover:opacity-100">
+                                            <div className="flex items-center">
+                                                <span className="fill-current mr-2">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fillRule="evenodd" clipRule="evenodd" d="M13 11H22V13H13V22H11V13H2V11H11V2H13V11Z" fill="current" />
+                                                    </svg>
+                                                </span>
+                                                Add to watchlist
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
