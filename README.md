@@ -56,3 +56,9 @@ MP4 Videos are saved in `/cypress/videos`.
 ## Deployment
 
 The project is deployed to Vercel or Netlify via GitHub hook.
+
+## Future features:
+
+- Create new Watchlist
+- Drag and drop movies into Watchlist
+- Search movie trailer from Youtube API
