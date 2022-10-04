@@ -8,6 +8,8 @@ The Frontend is built with NextJS, ReactJS and TailwindCSS.
 
 The Backend includes the serverless functions running on `/api`.
 
+Watchlist is persisted in browser's `localStorage`.
+
 ## Commands
 
 ```

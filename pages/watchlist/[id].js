@@ -36,10 +36,10 @@ export default function WatchlistPage() {
 
     return <Layout>
         <div className="relative">
-            <HeaderWithoutSearch />
+            <div className="w-full pt-14 pb-2 px-4 xl:px-10 relative z-10"></div>
 
             <Container>
-                <h1 className="mb-8 xl:mt-8 text-white text-3xl xl:text-5xl font-bold">Watchlist</h1>
+                <h1 className="mb-4 xl:mt-8 text-base lg:text-2xl text-neutral-300 font-semibold">Movies in your watchlist</h1>
             </Container>
         </div>
 
