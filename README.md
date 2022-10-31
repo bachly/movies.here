@@ -1,8 +1,8 @@
-# NetFrog - Movie Watchlist Curator
+# MoviesHere - Movie Watchlist Curator
 
 This project is built using NextJS, TailwindCSS and TMDB API.
 
-Demo: [https://netfrog.vercel.app/](https://netfrog.vercel.app/).
+Demo: [https://movies.here.li/](https://movies.here.li/).
 
 The Frontend is built with NextJS, ReactJS and TailwindCSS.
 
